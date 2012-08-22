@@ -1,0 +1,22 @@
+\begin{table}[H]
+\begin{center}
+	{\small
+	\begin{tabular}{ScScScScScScSc}
+	\toprule
+             Event         & \multicolumn{6}{Sc}{Sub Window}\tabularnewline
+	         Horizon & 5 & 10 & 15 & 20 & 25 & 30  \tabularnewline
+	\hline \\ [-2.5ex]
+
+10 & 0.77 (0.01) & 0.72 (0.01) & 0.68 (0.02) & 0.68 (0.03) & 0.66 (0.02) & 0.65 (0.02) \tabularnewline 
+15 & 0.68 (0.01) & 0.66 (0.02) & 0.64 (0.02) & 0.64 (0.03) & 0.61 (0.02) & 0.63 (0.03) \tabularnewline 
+20 & 0.64 (0.02) & 0.63 (0.02) & 0.61 (0.03) & 0.59 (0.03) & 0.59 (0.02) & 0.58 (0.03) \tabularnewline 
+25 & 0.62 (0.02) & 0.61 (0.01) & 0.57 (0.02) & 0.57 (0.03) & 0.55 (0.02) & 0.53 (0.04) \tabularnewline 
+30 & 0.59 (0.02) & 0.56 (0.02) & 0.55 (0.03) & 0.54 (0.03) & 0.53 (0.03) & 0.51 (0.03) \tabularnewline 
+
+	\bottomrule
+	\end{tabular}
+	} % End of Small
+	\caption[Model: FullQuadMeanSD] {Results for Model: FullQuadMeanSD, each cell represents the average AUC for 10 iterations with (std dev)}
+	\label{tbl:FullQuadMeanSD-dataSetsResults-AUC}
+\end{center}
+\end{table}

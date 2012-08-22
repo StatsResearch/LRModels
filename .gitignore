@@ -1,0 +1,11 @@
+.svn*
+*.csv
+*.tgz
+*.json
+.Rapp.*
+.Rhistory
+*.pdf
+*.png
+*.tex
+output_*
+min_*

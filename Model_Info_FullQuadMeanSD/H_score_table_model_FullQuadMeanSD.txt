@@ -1,0 +1,22 @@
+\begin{table}[H]
+\begin{center}
+	{\small
+	\begin{tabular}{ScScScScScScSc}
+	\toprule
+             Event         & \multicolumn{6}{Sc}{Sub Window}\tabularnewline
+	         Horizon & 5 & 10 & 15 & 20 & 25 & 30  \tabularnewline
+	\hline \\ [-2.5ex]
+
+10 & 0.07 (0.01) & 0.03 (0.00) & 0.02 (0.01) & 0.03 (0.01) & 0.02 (0.01) & 0.02 (0.00) \tabularnewline 
+15 & 0.02 (0.00) & 0.02 (0.00) & 0.02 (0.01) & 0.02 (0.00) & 0.01 (0.01) & 0.02 (0.01) \tabularnewline 
+20 & 0.01 (0.00) & 0.01 (0.00) & 0.01 (0.00) & 0.01 (0.00) & 0.01 (0.00) & 0.01 (0.00) \tabularnewline 
+25 & 0.01 (0.00) & 0.01 (0.00) & 0.01 (0.00) & 0.01 (0.00) & 0.00 (0.00) & 0.01 (0.00) \tabularnewline 
+30 & 0.01 (0.00) & 0.01 (0.01) & 0.01 (0.00) & 0.00 (0.00) & 0.00 (0.00) & 0.00 (0.00) \tabularnewline 
+
+	\bottomrule
+	\end{tabular}
+	} % End of Small
+	\caption[Model: FullQuadMeanSD] {Results for Model: FullQuadMeanSD, each cell represents the average H Score for 10 iterations with (std dev)}
+	\label{tbl:FullQuadMeanSD-dataSetsResults-H-Score}
+\end{center}
+\end{table}

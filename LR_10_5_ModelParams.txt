@@ -1,0 +1,79 @@
+Call:
+glm(formula = case_label ~ Age + Sex + HRT_spot + BPs_spot + 
+    BPd_spot + BPm_spot + HRT_mean + BPs_mean + BPd_mean + BPm_mean + 
+    BPp_mean + HRT_sd + BPs_sd + BPd_sd + BPm_sd + BPp_sd + HRT_slope + 
+    BPs_slope + BPd_slope + BPm_slope + BPp_slope, family = "binomial", 
+    data = model.input)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-2.5039  -0.5085  -0.3304  -0.1788   3.6056  
+
+Coefficients:
+              Estimate Std. Error z value Pr(>|z|)    
+(Intercept)  4.1551765  0.4379529   9.488  < 2e-16 ***
+Age          0.0030389  0.0024649   1.233   0.2176    
+Sex          0.2269333  0.1281968   1.770   0.0767 .  
+HRT_spot     0.0104072  0.0114906   0.906   0.3651    
+BPs_spot    -0.0179122  0.0100521  -1.782   0.0748 .  
+BPd_spot    -0.0143796  0.0173580  -0.828   0.4074    
+BPm_spot     0.0210148  0.0203303   1.034   0.3013    
+HRT_mean     0.0028492  0.0116129   0.245   0.8062    
+BPs_mean     0.0709682  0.0556496   1.275   0.2022    
+BPd_mean    -0.0733154  0.0552959  -1.326   0.1849    
+BPm_mean    -0.0922142  0.0221254  -4.168 3.08e-05 ***
+BPp_mean    -0.0532223  0.0561735  -0.947   0.3434    
+HRT_sd      -0.0003604  0.0138461  -0.026   0.9792    
+BPs_sd      -0.0121062  0.0145625  -0.831   0.4058    
+BPd_sd      -0.0006539  0.0153080  -0.043   0.9659    
+BPm_sd       0.0593512  0.0127300   4.662 3.13e-06 ***
+BPp_sd       0.0639825  0.0149215   4.288 1.80e-05 ***
+HRT_slope   -0.0071995  0.0539618  -0.133   0.8939    
+BPs_slope   -0.0020667  0.0429533  -0.048   0.9616    
+BPd_slope   -0.0154536  0.0609064  -0.254   0.7997    
+BPm_slope    0.0252878  0.0565567   0.447   0.6548    
+BPp_slope   -0.0424140  0.0472693  -0.897   0.3696    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 5711.4  on 8814  degrees of freedom
+Residual deviance: 4897.0  on 8793  degrees of freedom
+  (930 observations deleted due to missingness)
+AIC: 4941
+
+Number of Fisher Scoring iterations: 6
+
+> model.coeff.1
+  (Intercept)           Age           Sex      HRT_spot      BPs_spot      BPd_spot      BPm_spot 
+ 4.1551765429  0.0030388540  0.2269332925  0.0104072108 -0.0179122030 -0.0143796057  0.0210147829 
+     HRT_mean      BPs_mean      BPd_mean      BPm_mean      BPp_mean        HRT_sd        BPs_sd 
+ 0.0028492132  0.0709682178 -0.0733153558 -0.0922141603 -0.0532223040 -0.0003603523 -0.0121061971 
+       BPd_sd        BPm_sd        BPp_sd     HRT_slope     BPs_slope     BPd_slope     BPm_slope 
+-0.0006539245  0.0593512344  0.0639824532 -0.0071994567 -0.0020666755 -0.0154535885  0.0252877740 
+    BPp_slope 
+-0.0424140403 
+> model.coeff.5
+ (Intercept)          Age          Sex     HRT_spot     BPs_spot     BPd_spot     BPm_spot     HRT_mean 
+ 6.681363690 -0.017616065  0.104349315  0.017004032  0.004228067 -0.051292273  0.016545272 -0.009144707 
+    BPs_mean     BPd_mean     BPm_mean     BPp_mean       HRT_sd       BPs_sd       BPd_sd       BPm_sd 
+-0.026534593 -0.029949608 -0.024080786 -0.008833939  0.024585024 -0.005458532  0.034613457  0.028999416 
+      BPp_sd    HRT_slope    BPs_slope    BPd_slope    BPm_slope    BPp_slope 
+ 0.013277108  0.019903055 -0.068856299 -0.007068484 -0.039372774 -0.016496098 
+
+
+> combined.coef
+ (Intercept)          Age          Sex     HRT_spot     BPs_spot     BPd_spot     BPm_spot     HRT_mean 
+10.836540233 -0.014577211  0.331282608  0.027411243 -0.013684136 -0.065671879  0.037560055 -0.006295494 
+    BPs_mean     BPd_mean     BPm_mean     BPp_mean       HRT_sd       BPs_sd       BPd_sd       BPm_sd 
+ 0.044433625 -0.103264964 -0.116294946 -0.062056243  0.024224671 -0.017564729  0.033959533  0.088350650 
+      BPp_sd    HRT_slope    BPs_slope    BPd_slope    BPm_slope    BPp_slope 
+ 0.077259561  0.012703599 -0.070922974 -0.022522072 -0.014085000 -0.058910139 
+> combined.coef/2
+ (Intercept)          Age          Sex     HRT_spot     BPs_spot     BPd_spot     BPm_spot     HRT_mean 
+ 5.418270116 -0.007288606  0.165641304  0.013705621 -0.006842068 -0.032835939  0.018780028 -0.003147747 
+    BPs_mean     BPd_mean     BPm_mean     BPp_mean       HRT_sd       BPs_sd       BPd_sd       BPm_sd 
+ 0.022216813 -0.051632482 -0.058147473 -0.031028121  0.012112336 -0.008782364  0.016979766  0.044175325 
+      BPp_sd    HRT_slope    BPs_slope    BPd_slope    BPm_slope    BPp_slope 
+ 0.038629781  0.006351799 -0.035461487 -0.011261036 -0.007042500 -0.029455069 

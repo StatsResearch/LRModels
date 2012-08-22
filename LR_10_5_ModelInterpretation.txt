@@ -1,0 +1,65 @@
+> round(exp(combined.coef),digits=2)
+(Intercept)         Age         Sex    HRT_spot    BPs_spot    BPd_spot    BPm_spot    HRT_mean    BPs_mean 
+   50845.16        0.99        1.39        1.03        0.99        0.94        1.04        0.99        1.05 
+   BPd_mean    BPm_mean    BPp_mean      HRT_sd      BPs_sd      BPd_sd      BPm_sd      BPp_sd   HRT_slope 
+       0.90        0.89        0.94        1.02        0.98        1.03        1.09        1.08        1.01 
+  BPs_slope   BPd_slope   BPm_slope   BPp_slope 
+       0.93        0.98        0.99        0.94 
+> summary(model.full)
+
+Call:
+glm(formula = case_label ~ Age + Sex + HRT_spot + BPs_spot + 
+    BPd_spot + BPm_spot + HRT_mean + BPs_mean + BPd_mean + BPm_mean + 
+    BPp_mean + HRT_sd + BPs_sd + BPd_sd + BPm_sd + BPp_sd + HRT_slope + 
+    BPs_slope + BPd_slope + BPm_slope + BPp_slope, family = "binomial", 
+    data = model.input)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-2.2447  -0.5051  -0.3234  -0.1709   4.4312  
+
+Coefficients:
+             Estimate Std. Error z value Pr(>|z|)    
+(Intercept)  6.681364   0.491336  13.598  < 2e-16 ***
+Age         -0.017616   0.002703  -6.516 7.22e-11 ***
+Sex          0.104349   0.110604   0.943   0.3454    
+HRT_spot     0.017004   0.012513   1.359   0.1742    
+BPs_spot     0.004228   0.013225   0.320   0.7492    
+BPd_spot    -0.051292   0.028030  -1.830   0.0673 .  
+BPm_spot     0.016545   0.029210   0.566   0.5711    
+HRT_mean    -0.009145   0.012661  -0.722   0.4701    
+BPs_mean    -0.026535   0.139885  -0.190   0.8496    
+BPd_mean    -0.029950   0.141539  -0.212   0.8324    
+BPm_mean    -0.024081   0.029150  -0.826   0.4087    
+BPp_mean    -0.008834   0.139889  -0.063   0.9496    
+HRT_sd       0.024585   0.014189   1.733   0.0831 .  
+BPs_sd      -0.005459   0.018848  -0.290   0.7721    
+BPd_sd       0.034613   0.018872   1.834   0.0666 .  
+BPm_sd       0.028999   0.015526   1.868   0.0618 .  
+BPp_sd       0.013277   0.018786   0.707   0.4797    
+HRT_slope    0.019903   0.053070   0.375   0.7076    
+BPs_slope   -0.068856   0.056499  -1.219   0.2229    
+BPd_slope   -0.007068   0.092401  -0.076   0.9390    
+BPm_slope   -0.039373   0.083321  -0.473   0.6365    
+BPp_slope   -0.016496   0.060448  -0.273   0.7849    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 4825.3  on 7281  degrees of freedom
+Residual deviance: 4088.0  on 7260  degrees of freedom
+  (876 observations deleted due to missingness)
+AIC: 4132
+
+Number of Fisher Scoring iterations: 6
+
+> model.full$null.deviance - model.full$deviance
+[1] 737.3046
+> model.full$df.null - model.full$df.residual
+[1] 21
+> 1-pchisq(model.full$null.deviance-model.full$deviance, model.full$df.null-model.full$df.residual)
+[1] 0
+> 1-pchisq(737,21)
+[1] 0
+> 

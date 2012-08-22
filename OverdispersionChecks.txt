@@ -1,0 +1,276 @@
+1st May 2012
+
+Well, do we have overdispersion. Using the rule residual deviance/residual df not much > 1
+we are fine (Kabacoff p 322)
+
+> 4193/7351
+[1] 0.5703986
+
+however, using the pchisq() technique we have a highly significant p-value which 
+suggests dispersion value is not 1, i.e. reject null hypothesis. But is this because
+it is in fact 'underdispersed' and is 'underdispersed' a real thing?
+
+Check out SAGE_AppliedLogisticRegressionAnalysis.pdf in ~/PhDStuff/LogisticRegression
+
+Then did some density plots which look Gaussian apart from a few (1 in particular)
+crazy residuals. See the end of this note for R commands.
+ 
+R version 2.14.0 (2011-10-31)
+Copyright (C) 2011 The R Foundation for Statistical Computing
+ISBN 3-900051-07-0
+Platform: x86_64-apple-darwin9.8.0/x86_64 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+[R.app GUI 1.42 (5933) x86_64-apple-darwin9.8.0]
+
+[History restored from /Users/rob/.Rapp.history]
+
+> load("/Users/rob/PhDStuff/ThesisSoftware/LRModels/output_10/MN_MinimumQuasi/Median_AUC_Model_Juno_10_5_Index_5.rda")
+> load("/Users/rob/PhDStuff/ThesisSoftware/LRModels/output_10/MN_Minimum/Median_AUC_Model_juno_10_5_Index_5.rda")
+> ls()
+[1] "median.auc.model"
+> binomial<-load("/Users/rob/PhDStuff/ThesisSoftware/LRModels/output_10/MN_Minimum/Median_AUC_Model_juno_10_5_Index_5.rda")
+> summary(binomial)
+   Length     Class      Mode 
+        1 character character 
+> binomial.model<-get(binomial)
+> summary(binomial.model)
+
+Call:
+glm(formula = case_label ~ Age + Sex + BPm_mean + HRT_sd + BPm_sd, 
+    family = "binomial", data = model.input)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-2.5284  -0.5108  -0.3497  -0.2025   3.8728  
+
+Coefficients:
+              Estimate Std. Error z value Pr(>|z|)    
+(Intercept)  3.9019499  0.3666486  10.642  < 2e-16 ***
+Age          0.0004847  0.0020814   0.233    0.816    
+Sex          0.7134417  0.1214155   5.876  4.2e-09 ***
+BPm_mean    -0.0814912  0.0041712 -19.536  < 2e-16 ***
+HRT_sd       0.0070002  0.0158066   0.443    0.658    
+BPm_sd       0.0728941  0.0066530  10.956  < 2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 4758.2  on 7356  degrees of freedom
+Residual deviance: 4193.0  on 7351  degrees of freedom
+  (425 observations deleted due to missingness)
+AIC: 4205
+
+Number of Fisher Scoring iterations: 6
+
+> quasibinomial<-load("/Users/rob/PhDStuff/ThesisSoftware/LRModels/output_10/MN_MinimumQuasi/Median_AUC_Model_Juno_10_5_Index_5.rda")
+> quasibinomial.model<-get(quasibinomial)
+> summary(quasibinomial.model)
+
+Call:
+glm(formula = case_label ~ Age + Sex + BPm_mean + HRT_sd + BPm_sd, 
+    family = "quasibinomial", data = model.input)
+
+Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+-2.5284  -0.5108  -0.3497  -0.2025   3.8728  
+
+Coefficients:
+              Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  3.9019499  0.4099304   9.519  < 2e-16 ***
+Age          0.0004847  0.0023272   0.208    0.835    
+Sex          0.7134417  0.1357483   5.256 1.52e-07 ***
+BPm_mean    -0.0814912  0.0046637 -17.474  < 2e-16 ***
+HRT_sd       0.0070002  0.0176725   0.396    0.692    
+BPm_sd       0.0728941  0.0074384   9.800  < 2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+
+(Dispersion parameter for quasibinomial family taken to be 1.250029)
+
+    Null deviance: 4758.2  on 7356  degrees of freedom
+Residual deviance: 4193.0  on 7351  degrees of freedom
+  (425 observations deleted due to missingness)
+AIC: NA
+
+Number of Fisher Scoring iterations: 6
+
+> summary(quasibinomial.model)$dispersion
+[1] 1.250029
+> pchisq(summary(quasibinomial.model)$dispersion * binomial.model$df.residual,binomial.model$df.residual,lower=F)
+[1] 3.459439e-45
+> pchisq(summary(quasibinomial.model)$dispersion * binomial.model$df.residual,binomial.model$df.residual,lower=T)
+[1] 1
+> 
+> 4193/7351
+[1] 0.5703986
+
+> str(binomial.model)
+List of 31
+ $ coefficients     : Named num [1:6] 3.90195 0.000485 0.713442 -0.081491 0.007 ...
+  ..- attr(*, "names")= chr [1:6] "(Intercept)" "Age" "Sex" "BPm_mean" ...
+ $ residuals        : Named num [1:7357] 8.48 7.03 8.97 7.31 8.49 ...
+  ..- attr(*, "names")= chr [1:7357] "5" "6" "7" "8" ...
+ $ fitted.values    : Named num [1:7357] 0.118 0.142 0.111 0.137 0.118 ...
+  ..- attr(*, "names")= chr [1:7357] "5" "6" "7" "8" ...
+ $ effects          : Named num [1:7357] 46.19 1.05 4.79 -16.35 2.32 ...
+  ..- attr(*, "names")= chr [1:7357] "(Intercept)" "Age" "Sex" "BPm_mean" ...
+ $ R                : num [1:6, 1:6] -24.5 0 0 0 0 ...
+  ..- attr(*, "dimnames")=List of 2
+  .. ..$ : chr [1:6] "(Intercept)" "Age" "Sex" "BPm_mean" ...
+  .. ..$ : chr [1:6] "(Intercept)" "Age" "Sex" "BPm_mean" ...
+ $ rank             : int 6
+ $ qr               :List of 5
+  ..$ qr   : num [1:7357, 1:6] -24.5343 0.0142 0.0128 0.014 0.0131 ...
+  .. ..- attr(*, "dimnames")=List of 2
+  .. .. ..$ : chr [1:7357] "5" "6" "7" "8" ...
+  .. .. ..$ : chr [1:6] "(Intercept)" "Age" "Sex" "BPm_mean" ...
+  ..$ rank : int 6
+  ..$ qraux: num [1:6] 1.01 1.01 1.03 1.01 1 ...
+  ..$ pivot: int [1:6] 1 2 3 4 5 6
+  ..$ tol  : num 1e-11
+  ..- attr(*, "class")= chr "qr"
+ $ family           :List of 12
+  ..$ family    : chr "binomial"
+  ..$ link      : chr "logit"
+  ..$ linkfun   :function (mu)  
+  ..$ linkinv   :function (eta)  
+  ..$ variance  :function (mu)  
+  ..$ dev.resids:function (y, mu, wt)  
+  ..$ aic       :function (y, n, mu, wt, dev)  
+  ..$ mu.eta    :function (eta)  
+  ..$ initialize:  expression({     if (NCOL(y) == 1) {         if (is.factor(y))              y <- y != levels(y)[1L]         n <- rep.int(1, nobs)         y[weights == 0] <- 0         if (any(y < 0 | y > 1))              stop("y values must be 0 <= y <= 1")         mustart <- (weights * y + 0.5)/(weights + 1)         m <- weights * y         if (any(abs(m - round(m)) > 0.001))              warning("non-integer #successes in a binomial glm!")     }     else if (NCOL(y) == 2) {         if (any(abs(y - round(y)) > 0.001))              warning("non-integer counts in a binomial glm!")         n <- y[, 1] + y[, 2]         y <- ifelse(n == 0, 0, y[, 1]/n)         weights <- weights * n         mustart <- (n * y + 0.5)/(n + 1)     }     else stop("for the binomial family, y must be a vector of 0 and 1's\n",          "or a 2 column matrix where col 1 is no. successes and col 2 is no. failures") })
+  ..$ validmu   :function (mu)  
+  ..$ valideta  :function (eta)  
+  ..$ simulate  :function (object, nsim)  
+  ..- attr(*, "class")= chr "family"
+ $ linear.predictors: Named num [1:7357] -2.01 -1.8 -2.08 -1.84 -2.01 ...
+  ..- attr(*, "names")= chr [1:7357] "5" "6" "7" "8" ...
+ $ deviance         : num 4193
+ $ aic              : num 4205
+ $ null.deviance    : num 4758
+ $ iter             : int 6
+ $ weights          : Named num [1:7357] 0.104 0.122 0.099 0.118 0.104 ...
+  ..- attr(*, "names")= chr [1:7357] "5" "6" "7" "8" ...
+ $ prior.weights    : Named num [1:7357] 1 1 1 1 1 1 1 1 1 1 ...
+  ..- attr(*, "names")= chr [1:7357] "5" "6" "7" "8" ...
+ $ df.residual      : int 7351
+ $ df.null          : int 7356
+ $ y                : Named num [1:7357] 1 1 1 1 1 1 1 1 1 1 ...
+  ..- attr(*, "names")= chr [1:7357] "5" "6" "7" "8" ...
+ $ converged        : logi TRUE
+ $ boundary         : logi FALSE
+ $ model            :'data.frame':	7357 obs. of  6 variables:
+  ..$ case_label: int [1:7357] 1 1 1 1 1 1 1 1 1 1 ...
+  ..$ Age       : int [1:7357] 25 25 25 25 25 25 25 25 25 25 ...
+  ..$ Sex       : int [1:7357] 0 0 0 0 0 0 0 0 0 0 ...
+  ..$ BPm_mean  : num [1:7357] 73.2 70.6 74.6 73 74 82 78.8 72.6 91 73.2 ...
+  ..$ HRT_sd    : num [1:7357] 0.837 0.447 0.894 0.894 1.924 ...
+  ..$ BPm_sd    : num [1:7357] 0.447 0.548 1.14 2.55 1.225 ...
+  ..- attr(*, "terms")=Classes 'terms', 'formula' length 3 case_label ~ Age + Sex + BPm_mean + HRT_sd + BPm_sd
+  .. .. ..- attr(*, "variables")= language list(case_label, Age, Sex, BPm_mean, HRT_sd, BPm_sd)
+  .. .. ..- attr(*, "factors")= int [1:6, 1:5] 0 1 0 0 0 0 0 0 1 0 ...
+  .. .. .. ..- attr(*, "dimnames")=List of 2
+  .. .. .. .. ..$ : chr [1:6] "case_label" "Age" "Sex" "BPm_mean" ...
+  .. .. .. .. ..$ : chr [1:5] "Age" "Sex" "BPm_mean" "HRT_sd" ...
+  .. .. ..- attr(*, "term.labels")= chr [1:5] "Age" "Sex" "BPm_mean" "HRT_sd" ...
+  .. .. ..- attr(*, "order")= int [1:5] 1 1 1 1 1
+  .. .. ..- attr(*, "intercept")= int 1
+  .. .. ..- attr(*, "response")= int 1
+  .. .. ..- attr(*, ".Environment")=<environment: 0x116a56860> 
+  .. .. ..- attr(*, "predvars")= language list(case_label, Age, Sex, BPm_mean, HRT_sd, BPm_sd)
+  .. .. ..- attr(*, "dataClasses")= Named chr [1:6] "numeric" "numeric" "numeric" "numeric" ...
+  .. .. .. ..- attr(*, "names")= chr [1:6] "case_label" "Age" "Sex" "BPm_mean" ...
+  ..- attr(*, "na.action")=Class 'omit'  Named int [1:425] 1 2 3 4 19 38 58 99 111 142 ...
+  .. .. ..- attr(*, "names")= chr [1:425] "1" "2" "3" "4" ...
+ $ na.action        :Class 'omit'  Named int [1:425] 1 2 3 4 19 38 58 99 111 142 ...
+  .. ..- attr(*, "names")= chr [1:425] "1" "2" "3" "4" ...
+ $ call             : language glm(formula = case_label ~ Age + Sex + BPm_mean + HRT_sd + BPm_sd,      family = "binomial", data = model.input)
+ $ formula          :Class 'formula' length 3 case_label ~ Age + Sex + BPm_mean + HRT_sd + BPm_sd
+  .. ..- attr(*, ".Environment")=<environment: 0x116a56860> 
+ $ terms            :Classes 'terms', 'formula' length 3 case_label ~ Age + Sex + BPm_mean + HRT_sd + BPm_sd
+  .. ..- attr(*, "variables")= language list(case_label, Age, Sex, BPm_mean, HRT_sd, BPm_sd)
+  .. ..- attr(*, "factors")= int [1:6, 1:5] 0 1 0 0 0 0 0 0 1 0 ...
+  .. .. ..- attr(*, "dimnames")=List of 2
+  .. .. .. ..$ : chr [1:6] "case_label" "Age" "Sex" "BPm_mean" ...
+  .. .. .. ..$ : chr [1:5] "Age" "Sex" "BPm_mean" "HRT_sd" ...
+  .. ..- attr(*, "term.labels")= chr [1:5] "Age" "Sex" "BPm_mean" "HRT_sd" ...
+  .. ..- attr(*, "order")= int [1:5] 1 1 1 1 1
+  .. ..- attr(*, "intercept")= int 1
+  .. ..- attr(*, "response")= int 1
+  .. ..- attr(*, ".Environment")=<environment: 0x116a56860> 
+  .. ..- attr(*, "predvars")= language list(case_label, Age, Sex, BPm_mean, HRT_sd, BPm_sd)
+  .. ..- attr(*, "dataClasses")= Named chr [1:6] "numeric" "numeric" "numeric" "numeric" ...
+  .. .. ..- attr(*, "names")= chr [1:6] "case_label" "Age" "Sex" "BPm_mean" ...
+ $ data             :'data.frame':	7782 obs. of  22 variables:
+  ..$ Age      : int [1:7782] 27 27 27 27 25 25 25 25 25 25 ...
+  ..$ Sex      : int [1:7782] 1 1 1 1 0 0 0 0 0 0 ...
+  ..$ HRT_spot : int [1:7782] NA NA NA NA 59 66 66 79 72 72 ...
+  ..$ BPs_spot : int [1:7782] 114 134 117 134 123 113 133 122 123 130 ...
+  ..$ BPd_spot : int [1:7782] 63 65 67 51 53 53 49 55 54 49 ...
+  ..$ BPm_spot : int [1:7782] 77 84 81 71 73 71 73 76 73 73 ...
+  ..$ BPp_spot : int [1:7782] 51 69 50 83 70 60 84 67 69 81 ...
+  ..$ HRT_mean : num [1:7782] NA NA NA NA 59.8 65.8 66.6 80.4 71.2 73.6 ...
+  ..$ BPs_mean : num [1:7782] 112 127 115 135 123 ...
+  ..$ BPd_mean : num [1:7782] 62.8 60 66 52.4 53.2 52.2 50.4 52.8 55 58.6 ...
+  ..$ BPm_mean : num [1:7782] 76.2 77.4 80 72.2 73.2 70.6 74.6 73 74 82 ...
+  ..$ BPp_mean : num [1:7782] 49.6 67.2 48.6 83 69.4 61.8 84.8 64.8 67.6 79.8 ...
+  ..$ HRT_sd   : num [1:7782] NA NA NA NA 0.837 ...
+  ..$ BPs_sd   : num [1:7782] 2.074 19.202 1.817 1.342 0.548 ...
+  ..$ BPd_sd   : num [1:7782] 1.304 12.884 1 0.894 1.095 ...
+  ..$ BPm_sd   : num [1:7782] 1.304 17.601 0.707 1.095 0.447 ...
+  ..$ BPp_sd   : num [1:7782] 1.517 6.38 1.342 0.707 1.517 ...
+  ..$ HRT_slope: num [1:7782] 0 0 0 0 0 ...
+  ..$ BPs_slope: num [1:7782] 0 0 0 -0.714 0.257 ...
+  ..$ BPd_slope: num [1:7782] 0 0 0 0 0 ...
+  ..$ BPm_slope: num [1:7782] 0 0 0 0 0 ...
+  ..$ BPp_slope: num [1:7782] 0 0 0 0 0 ...
+ $ offset           : NULL
+ $ control          :List of 3
+  ..$ epsilon: num 1e-08
+  ..$ maxit  : num 25
+  ..$ trace  : logi FALSE
+ $ method           : chr "glm.fit"
+ $ contrasts        : NULL
+ $ xlevels          : Named list()
+ - attr(*, "class")= chr [1:2] "glm" "lm"
+> library(sm)
+Package `sm', version 2.2-4.1
+Copyright (C) 1997, 2000, 2005, 2007, 2008, A.W.Bowman & A.Azzalini
+Type help(sm) for summary information
+
+> sm.density(binomial.model$residuals)
+> summary(binomial.model$residuals)
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+ -24.4400   -1.1390   -1.0630    0.2374   -1.0210 1807.0000 
+> trimmed.binomial.resid<-binomial.model$residuals[binomial.model$residuals > -50 & binomial.model$residuals < 50]
+> length(binomial.model$residuals)
+[1] 7357
+> length(trimmed.binomial.resid)
+[1] 7339
+> sm.density(trimmed.binomial.resid, add=T, col='red')
+> sm.density(trimmed.binomial.resid, col='red')
+> trimmed.binomial.resid.2<-binomial.model$residuals[binomial.model$residuals > -10 & binomial.model$residuals < 50]
+> sm.density(trimmed.binomial.resid.2, col='blue')
+> sm.density(trimmed.binomial.resid, col='red')
+> sm.density(trimmed.binomial.resid.2, add=T, col='blue')
+> sd(trimmed.binomial.resid.2)
+[1] 3.519423
+> mean(trimmed.binomial.resid.2)
+[1] -0.2102531
+> 
+
