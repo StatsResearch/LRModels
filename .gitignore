@@ -1,0 +1,9 @@
+.svn
+output_*
+*.pdf
+*.tex
+min_*
+*.png
+.Rapp*
+.Rhist*
+
